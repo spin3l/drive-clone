@@ -1,13 +1,12 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 import {
   File,
   FileText,
   Folder,
   Grid,
   List,
-  MoreVertical,
   Plus,
   Search,
   Settings,
@@ -15,17 +14,16 @@ import {
   Trash,
   Upload,
   Users,
-} from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -33,150 +31,98 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
-// Mock data for files and folders
-const mockData = {
-  root: [
-    { id: "1", name: "Documents", type: "folder", updatedAt: "May 15, 2025", size: "-" },
-    { id: "2", name: "Images", type: "folder", updatedAt: "May 10, 2025", size: "-" },
-    { id: "3", name: "Project Files", type: "folder", updatedAt: "May 5, 2025", size: "-" },
-    { id: "4", name: "Budget 2025.xlsx", type: "file", updatedAt: "May 18, 2025", size: "1.2 MB" },
-    { id: "5", name: "Meeting Notes.docx", type: "file", updatedAt: "May 17, 2025", size: "245 KB" },
-  ],
-  "1": [
-    { id: "6", name: "Work", type: "folder", updatedAt: "May 12, 2025", size: "-" },
-    { id: "7", name: "Personal", type: "folder", updatedAt: "May 11, 2025", size: "-" },
-    { id: "8", name: "Resume.pdf", type: "file", updatedAt: "May 14, 2025", size: "420 KB" },
-    { id: "9", name: "Contract.pdf", type: "file", updatedAt: "May 13, 2025", size: "1.5 MB" },
-  ],
-  "2": [
-    { id: "10", name: "Vacation", type: "folder", updatedAt: "May 9, 2025", size: "-" },
-    { id: "11", name: "Profile.jpg", type: "file", updatedAt: "May 8, 2025", size: "2.3 MB" },
-    { id: "12", name: "Banner.png", type: "file", updatedAt: "May 7, 2025", size: "4.1 MB" },
-  ],
-  "3": [
-    { id: "13", name: "Frontend", type: "folder", updatedAt: "May 4, 2025", size: "-" },
-    { id: "14", name: "Backend", type: "folder", updatedAt: "May 3, 2025", size: "-" },
-    { id: "15", name: "README.md", type: "file", updatedAt: "May 2, 2025", size: "12 KB" },
-  ],
-  "6": [
-    { id: "16", name: "Presentations", type: "folder", updatedAt: "May 1, 2025", size: "-" },
-    { id: "17", name: "Proposal.docx", type: "file", updatedAt: "Apr 30, 2025", size: "350 KB" },
-  ],
-  "7": [
-    { id: "18", name: "Taxes", type: "folder", updatedAt: "Apr 29, 2025", size: "-" },
-    { id: "19", name: "Journal.txt", type: "file", updatedAt: "Apr 28, 2025", size: "45 KB" },
-  ],
-  "10": [
-    { id: "20", name: "Beach.jpg", type: "file", updatedAt: "Apr 27, 2025", size: "3.2 MB" },
-    { id: "21", name: "Mountains.jpg", type: "file", updatedAt: "Apr 26, 2025", size: "2.8 MB" },
-  ],
-  "13": [
-    { id: "22", name: "index.html", type: "file", updatedAt: "Apr 25, 2025", size: "5 KB" },
-    { id: "23", name: "styles.css", type: "file", updatedAt: "Apr 24, 2025", size: "8 KB" },
-    { id: "24", name: "app.js", type: "file", updatedAt: "Apr 23, 2025", size: "12 KB" },
-  ],
-  "14": [
-    { id: "25", name: "server.js", type: "file", updatedAt: "Apr 22, 2025", size: "15 KB" },
-    { id: "26", name: "database.sql", type: "file", updatedAt: "Apr 21, 2025", size: "3 KB" },
-  ],
-  "16": [
-    { id: "27", name: "Q1 Results.pptx", type: "file", updatedAt: "Apr 20, 2025", size: "2.5 MB" },
-    { id: "28", name: "Product Launch.pptx", type: "file", updatedAt: "Apr 19, 2025", size: "3.8 MB" },
-  ],
-  "18": [
-    { id: "29", name: "2024 Tax Return.pdf", type: "file", updatedAt: "Apr 18, 2025", size: "1.7 MB" },
-    { id: "30", name: "Receipts.zip", type: "file", updatedAt: "Apr 17, 2025", size: "5.2 MB" },
-  ],
-}
-
-// Path mapping for breadcrumb navigation
-const pathMap = {
-  "1": { name: "Documents", parent: "root" },
-  "2": { name: "Images", parent: "root" },
-  "3": { name: "Project Files", parent: "root" },
-  "6": { name: "Work", parent: "1" },
-  "7": { name: "Personal", parent: "1" },
-  "10": { name: "Vacation", parent: "2" },
-  "13": { name: "Frontend", parent: "3" },
-  "14": { name: "Backend", parent: "3" },
-  "16": { name: "Presentations", parent: "6" },
-  "18": { name: "Taxes", parent: "7" },
-}
+} from "@/components/ui/dialog";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { mockFolders, mockFiles } from "@/lib/mock-data";
+import FileRow from "@/app/file-row";
 
 export function DriveUI() {
-  const [currentFolder, setCurrentFolder] = useState("root")
-  const [viewMode, setViewMode] = useState("grid")
-  const [uploadDialogOpen, setUploadDialogOpen] = useState(false)
-  const [breadcrumbs, setBreadcrumbs] = useState<{ id: string; name: string }[]>([{ id: "root", name: "My Drive" }])
+  const [currentFolder, setCurrentFolder] = useState("root");
+  const [viewMode, setViewMode] = useState("grid");
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [breadcrumbs, setBreadcrumbs] = useState<
+    { id: string; name: string }[]
+  >([{ id: "root", name: "My Drive" }]);
+
+  // Build a map for folder navigation (id -> folder)
+  const folderMap = Object.fromEntries(
+    mockFolders.map((folder) => [folder.id, folder]),
+  );
+
+  // Get folders and files for the current folder
+  const foldersInCurrent = mockFolders.filter(
+    (f) => f.parent === currentFolder,
+  );
+  const filesInCurrent = mockFiles.filter((f) => f.parent === currentFolder);
 
   // Navigate to a folder
-  const navigateToFolder = (folderId: string, folderName: string) => {
+  const navigateToFolder = (folderId: string) => {
     if (folderId === "root") {
-      setBreadcrumbs([{ id: "root", name: "My Drive" }])
+      setBreadcrumbs([{ id: "root", name: "My Drive" }]);
     } else {
       // Build breadcrumb path
-      const newBreadcrumbs = [{ id: "root", name: "My Drive" }]
-      let currentId = folderId
-      const path = []
+      const newBreadcrumbs = [{ id: "root", name: "My Drive" }];
+      let currentId = folderId;
+      const path = [];
 
       while (currentId !== "root") {
-        const folder = pathMap[currentId as keyof typeof pathMap]
+        const folder = folderMap[currentId];
         if (folder) {
-          path.unshift({ id: currentId, name: folder.name })
-          currentId = folder.parent
+          path.unshift({ id: currentId, name: folder.name });
+          currentId = folder.parent ?? "root";
         } else {
-          break
+          break;
         }
       }
 
-      setBreadcrumbs([...newBreadcrumbs, ...path])
+      setBreadcrumbs([...newBreadcrumbs, ...path]);
     }
 
-    setCurrentFolder(folderId)
-  }
+    setCurrentFolder(folderId);
+  };
 
-  // Get file icon based on file type
   const getFileIcon = (fileName: string) => {
-    const extension = fileName.split(".").pop()?.toLowerCase()
+    const extension = fileName.split(".").pop()?.toLowerCase();
 
     switch (extension) {
       case "pdf":
-        return <FileText className="w-10 h-10 text-red-500" />
+        return <FileText className="h-10 w-10 text-red-500" />;
       case "doc":
       case "docx":
-        return <FileText className="w-10 h-10 text-blue-500" />
+        return <FileText className="h-10 w-10 text-blue-500" />;
       case "xls":
       case "xlsx":
-        return <FileText className="w-10 h-10 text-green-500" />
+        return <FileText className="h-10 w-10 text-green-500" />;
       case "ppt":
       case "pptx":
-        return <FileText className="w-10 h-10 text-orange-500" />
+        return <FileText className="h-10 w-10 text-orange-500" />;
       case "jpg":
       case "jpeg":
       case "png":
       case "gif":
-        return <FileText className="w-10 h-10 text-purple-500" />
+        return <FileText className="h-10 w-10 text-purple-500" />;
       default:
-        return <FileText className="w-10 h-10 text-gray-500" />
+        return <FileText className="h-10 w-10 text-gray-500" />;
     }
-  }
+  };
 
   return (
     <div className="flex h-screen flex-col">
       {/* Header */}
       <header className="border-b">
-        <div className="flex h-16 items-center px-4 gap-4">
-          <h1 className="text-xl font-semibold flex items-center gap-2">
+        <div className="flex h-16 items-center gap-4 px-4">
+          <h1 className="flex items-center gap-2 text-xl font-semibold">
             <File className="h-6 w-6 text-blue-500" />
             Drive
           </h1>
-          <div className="flex-1 ml-4">
+          <div className="ml-4 flex-1">
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input type="search" placeholder="Search in Drive" className="w-full max-w-lg pl-8 bg-muted/50" />
+              <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
+              <Input
+                type="search"
+                placeholder="Search in Drive"
+                className="bg-muted/50 w-full max-w-lg pl-8"
+              />
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -193,7 +139,7 @@ export function DriveUI() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-64 border-r bg-muted/50 hidden md:block">
+        <aside className="bg-muted/50 hidden w-64 border-r md:block">
           <div className="flex flex-col gap-1 p-4">
             <div className="px-2 py-4">
               <DropdownMenu>
@@ -238,15 +184,17 @@ export function DriveUI() {
         <main className="flex-1 overflow-auto">
           <div className="p-4">
             {/* Breadcrumb and actions */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-1 text-sm">
                 {breadcrumbs.map((crumb, index) => (
                   <div key={crumb.id} className="flex items-center">
-                    {index > 0 && <span className="mx-1 text-muted-foreground">/</span>}
+                    {index > 0 && (
+                      <span className="text-muted-foreground mx-1">/</span>
+                    )}
                     <Button
                       variant="link"
-                      className="p-0 h-auto font-normal"
-                      onClick={() => navigateToFolder(crumb.id, crumb.name)}
+                      className="h-auto p-0 font-normal"
+                      onClick={() => navigateToFolder(crumb.id)}
                     >
                       {crumb.name}
                     </Button>
@@ -274,8 +222,11 @@ export function DriveUI() {
             </div>
 
             {/* Upload button for mobile */}
-            <div className="md:hidden mb-4">
-              <Button className="w-full justify-center gap-2" onClick={() => setUploadDialogOpen(true)}>
+            <div className="mb-4 md:hidden">
+              <Button
+                className="w-full justify-center gap-2"
+                onClick={() => setUploadDialogOpen(true)}
+              >
                 <Upload className="h-4 w-4" />
                 Upload
               </Button>
@@ -291,73 +242,57 @@ export function DriveUI() {
             </Tabs>
 
             {viewMode === "grid" ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {mockData[currentFolder as keyof typeof mockData]?.map((item) => (
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                {[...foldersInCurrent, ...filesInCurrent].map((item) => (
                   <div
                     key={item.id}
-                    className="border rounded-lg p-3 hover:bg-muted/50 cursor-pointer transition-colors"
+                    className="hover:bg-muted/50 cursor-pointer rounded-lg border p-3 transition-colors"
                     onClick={() =>
-                      item.type === "folder" ? navigateToFolder(item.id, item.name) : window.open("#", "_blank")
+                      item.type === "folder"
+                        ? navigateToFolder(item.id)
+                        : window.open("#", "_blank")
                     }
                   >
-                    <div className="flex flex-col items-center text-center gap-2">
-                      {item.type === "folder" ? <Folder className="w-10 h-10 text-blue-500" /> : getFileIcon(item.name)}
+                    <div className="flex flex-col items-center gap-2 text-center">
+                      {item.type === "folder" ? (
+                        <Folder className="h-10 w-10 text-blue-500" />
+                      ) : (
+                        getFileIcon(item.name)
+                      )}
                       <div className="w-full">
-                        <p className="font-medium text-sm truncate">{item.name}</p>
-                        <p className="text-xs text-muted-foreground">{item.updatedAt}</p>
+                        <p className="truncate text-sm font-medium">
+                          {item.name}
+                        </p>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="border rounded-lg overflow-hidden">
+              <div className="overflow-hidden rounded-lg border">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b bg-muted/50">
-                      <th className="text-left p-3 font-medium text-sm">Name</th>
-                      <th className="text-left p-3 font-medium text-sm hidden md:table-cell">Last modified</th>
-                      <th className="text-left p-3 font-medium text-sm hidden md:table-cell">Size</th>
-                      <th className="p-3 w-10"></th>
+                    <tr className="bg-muted/50 border-b">
+                      <th className="p-3 text-left text-sm font-medium">
+                        Name
+                      </th>
+                      <th className="hidden p-3 text-left text-sm font-medium md:table-cell">
+                        Last modified
+                      </th>
+                      <th className="hidden p-3 text-left text-sm font-medium md:table-cell">
+                        Size
+                      </th>
+                      <th className="w-10 p-3"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {mockData[currentFolder as keyof typeof mockData]?.map((item) => (
-                      <tr key={item.id} className="border-b hover:bg-muted/50">
-                        <td
-                          className="p-3 cursor-pointer"
-                          onClick={() =>
-                            item.type === "folder" ? navigateToFolder(item.id, item.name) : window.open("#", "_blank")
-                          }
-                        >
-                          <div className="flex items-center gap-3">
-                            {item.type === "folder" ? (
-                              <Folder className="w-5 h-5 text-blue-500" />
-                            ) : (
-                              getFileIcon(item.name)
-                            )}
-                            <span className="font-medium text-sm">{item.name}</span>
-                          </div>
-                        </td>
-                        <td className="p-3 text-sm text-muted-foreground hidden md:table-cell">{item.updatedAt}</td>
-                        <td className="p-3 text-sm text-muted-foreground hidden md:table-cell">{item.size}</td>
-                        <td className="p-3">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon" className="h-8 w-8">
-                                <MoreVertical className="h-4 w-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem>Download</DropdownMenuItem>
-                              <DropdownMenuItem>Share</DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem>Rename</DropdownMenuItem>
-                              <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </td>
-                      </tr>
+                    {[...foldersInCurrent, ...filesInCurrent].map((item) => (
+                      <FileRow
+                        key={item.id}
+                        item={item}
+                        getFileIcon={getFileIcon}
+                        navigateToFolder={navigateToFolder}
+                      />
                     ))}
                   </tbody>
                 </table>
@@ -372,19 +307,26 @@ export function DriveUI() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Upload files</DialogTitle>
-            <DialogDescription>Drag and drop files here or click to browse</DialogDescription>
+            <DialogDescription>
+              Drag and drop files here or click to browse
+            </DialogDescription>
           </DialogHeader>
-          <div className="border-2 border-dashed rounded-lg p-10 text-center">
+          <div className="rounded-lg border-2 border-dashed p-10 text-center">
             <div className="flex flex-col items-center gap-2">
-              <Upload className="h-10 w-10 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">Drag and drop files here or click to browse</p>
+              <Upload className="text-muted-foreground h-10 w-10" />
+              <p className="text-muted-foreground text-sm">
+                Drag and drop files here or click to browse
+              </p>
               <Button size="sm" className="mt-2">
                 Choose files
               </Button>
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setUploadDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setUploadDialogOpen(false)}
+            >
               Cancel
             </Button>
             <Button onClick={() => setUploadDialogOpen(false)}>Upload</Button>
@@ -392,5 +334,5 @@ export function DriveUI() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

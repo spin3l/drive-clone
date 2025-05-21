@@ -1,5 +1,5 @@
 import { createClient, type Client } from "@libsql/client";
-import { createPool, type Pool } from "mysql2/promise";
+import { createPool } from "mysql2/promise";
 import { drizzle } from "drizzle-orm/libsql";
 
 import { env } from "@/env";
@@ -16,11 +16,11 @@ const globalForDb = globalThis as unknown as {
 const conn =
   globalForDb.conn ??
   createPool({
-    host: env.SINGLESTORE_HOST,
-    port: env.SINGLESTORE_PORT,
-    user: env.SINGLESTORE_USER,
-    password: env.SINGLESTORE_PASSWORD,
-    database: env.DATABASE_URL,
+    host: env.SINGLESTORE_HOST as string,
+    port: env.SINGLESTORE_PORT as number,
+    user: env.SINGLESTORE_USER as string,
+    password: env.SINGLESTORE_PASSWORD as string,
+    database: env.DATABASE_URL as string,
     ssl: {},
     maxIdle: 0,
   });
