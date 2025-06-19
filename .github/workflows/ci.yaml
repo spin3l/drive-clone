@@ -20,8 +20,8 @@ jobs:
       - name: Lint
         run: pnpm lint
         env:
-          SINGLESTORE_HOST: { { secrets.SINGLESTORE_HOST } }
-          SINGLESTORE_PORT: { { secrets.SINGLESTORE_PORT } }
-          SINGLESTORE_USER: { { secrets.SINGLESTORE_USER } }
-          SINGLESTORE_PASSWORD: { { secrets.SINGLESTORE_PASSWORD } }
-          DATABASE_URL: { { secrets.DATABASE_URL } }
+          SINGLESTORE_HOST: ${{ secrets.SINGLESTORE_HOST } }
+          SINGLESTORE_PORT: ${ { secrets.SINGLESTORE_PORT } }
+          SINGLESTORE_USER: ${ { secrets.SINGLESTORE_USER } }
+          SINGLESTORE_PASSWORD: ${ { secrets.SINGLESTORE_PASSWORD } }
+          DATABASE_URL: ${ { secrets.DATABASE_URL } }
