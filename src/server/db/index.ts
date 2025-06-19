@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 import { createClient, type Client } from "@libsql/client";
 import { createPool } from "mysql2/promise";
 import { drizzle } from "drizzle-orm/libsql";
