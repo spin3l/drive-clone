@@ -5,6 +5,7 @@ import { env } from "@/env";
 export default {
   schema: "./src/server/db/schema.ts",
   dialect: "singlestore",
+  tablesFilter: ["drive-tutorial_*"],
   dbCredentials: {
     host: env.SINGLESTORE_HOST as string,
     port: env.SINGLESTORE_PORT as number,
@@ -13,5 +14,4 @@ export default {
     database: env.SINGLESTORE_DATABASE as string,
     ssl: {},
   },
-  tablesFilter: ["drive-tutorial_*"],
 } satisfies Config;
